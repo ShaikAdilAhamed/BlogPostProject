@@ -1,5 +1,8 @@
 package com.first.ramSirRstApi.serviceImpl;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +10,7 @@ import com.first.ramSirRstApi.dto.BlogPostDTO;
 import com.first.ramSirRstApi.dto.CommentDTO;
 import com.first.ramSirRstApi.entities.BlogPost;
 import com.first.ramSirRstApi.entities.Comments;
+import com.first.ramSirRstApi.exception.ResourceNotFoundException;
 import com.first.ramSirRstApi.repository.CommentRepository;
 import com.first.ramSirRstApi.service.BlogPostService;
 import com.first.ramSirRstApi.service.CommentService;
@@ -44,6 +48,23 @@ public class CommentServiceImpl implements CommentService {
 		comments.setComment(commentDTO.getComment());
 		comments.setBlogPost(blogPost);
 		return comments;
+	}
+
+	@Override
+	public List<CommentDTO> findCommentByBlogPostId(Integer postId) {
+		BlogPost blogPost = blogPostService.findBlogPostId(postId);
+		//Optional<Comments> blogPostId = blogPostService.findById();
+		List<Comments> comments=commentRepository.findByblogPost(blogPost);
+		return comments.stream().map(comment -> mapEntityToDto(comment)).toList();
+		
+	}
+
+	@Override
+	public List<CommentDTO> findCommentByBlogPostIdAndCommentId(Integer postId, Integer commentId) {
+		BlogPost blogPost = blogPostService.findBlogPostId(postId);
+		//Optional<Comments> blogPostId = blogPostService.findById();
+		List<Comments> comments=commentRepository.findByblogPostAndCommentId(blogPost,commentId);
+		return comments.stream().map(comment -> mapEntityToDto(comment)).toList();
 	}
 
 }
