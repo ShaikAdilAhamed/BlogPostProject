@@ -90,4 +90,11 @@ public class BolhPostServiceImpl implements BlogPostService {
 		return mapEntityToDto(update);
 	}
 
+	@Override
+	public BlogPost findBlogPostId(Integer id) {
+		Optional<BlogPost> findById = blogPostRepo.findById(id);
+		BlogPost blogPost = findById.orElseThrow(() -> new ResourceNotFoundException("BlogPost", "Id", id));
+	return blogPost;
+	}
+
 }

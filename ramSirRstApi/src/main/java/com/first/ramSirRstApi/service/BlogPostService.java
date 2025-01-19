@@ -13,4 +13,6 @@ public BlogPostDTO findByBlogPostId(Integer id);
 List<BlogPostDTO> getAllBlogPost();
 
 BlogPostDTO updateBlogPost(BlogPostDTO blogPostDTO);
+
+public BlogPost findBlogPostId(Integer blogPostId);
 }
