@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import com.first.ramSirRstApi.service.CommentService;
 
 @RestController
 @RequestMapping("/api/posts")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class CommentController {
 
 	@Autowired
@@ -34,22 +36,35 @@ public class CommentController {
 		}
 
 	}
-	
+
 	@GetMapping("/{postId}/comments")
-	public ResponseEntity<CommentDTO> getCommentsBypostId(@PathVariable Integer postId)
-	{
-		List<CommentDTO> commentDTO=commentService.findCommentByBlogPostId(postId);
-		
-		return new ResponseEntity(commentDTO,HttpStatus.OK);
-		
+	public ResponseEntity<CommentDTO> getCommentsBypostId(@PathVariable Integer postId) {
+		List<CommentDTO> commentDTO = commentService.findCommentByBlogPostId(postId);
+
+		return new ResponseEntity(commentDTO, HttpStatus.OK);
+
 	}
-	
+
 	@GetMapping("/{postId}/comments/{id}")
-	public ResponseEntity<CommentDTO> getCommentsByPostIdAndCommentId(@PathVariable Integer postId,@PathVariable Integer id)
-	{
-		List<CommentDTO> commentDTO=commentService.findCommentByBlogPostIdAndCommentId(postId,id);
-		
-		return new ResponseEntity(commentDTO,HttpStatus.OK);
-		
+	public ResponseEntity<CommentDTO> getCommentsByPostIdAndCommentId(@PathVariable Integer postId,
+			@PathVariable Integer id) {
+		List<CommentDTO> commentDTO = commentService.findCommentByBlogPostIdAndCommentId(postId, id);
+
+		return new ResponseEntity(commentDTO, HttpStatus.OK);
+
+	}
+
+	@PutMapping("/{postId}/comments/{id}")
+	public ResponseEntity<BlogPostDTO> updateBlogPost(@PathVariable Integer postId,
+			@PathVariable("id") Integer commentId, @RequestBody CommentDTO commentDTO) {
+
+		if (postId.equals(commentDTO.getBlogPostId()) && commentId.equals(commentDTO.getCommentId())) {
+			CommentDTO getById = commentService.updateComments(commentDTO, postId, commentId);
+
+			return new ResponseEntity(getById, HttpStatus.OK);
+		} else {
+			return new ResponseEntity("Post Id Not Match", HttpStatus.BAD_REQUEST);
+		}
+
 	}
 }

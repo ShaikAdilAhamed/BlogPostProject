@@ -12,4 +12,6 @@ public interface CommentService {
 
 	List<CommentDTO> findCommentByBlogPostIdAndCommentId(Integer postId, Integer commentId);
 
+	CommentDTO updateComments(CommentDTO commentDTO, Integer postId, Integer commentId);
+
 }

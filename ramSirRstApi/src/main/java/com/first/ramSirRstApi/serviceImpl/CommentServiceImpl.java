@@ -47,6 +47,7 @@ public class CommentServiceImpl implements CommentService {
 		Comments comments = new Comments();
 		comments.setComment(commentDTO.getComment());
 		comments.setBlogPost(blogPost);
+		comments.setCommentId(commentDTO.getCommentId());
 		return comments;
 	}
 
@@ -62,9 +63,23 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<CommentDTO> findCommentByBlogPostIdAndCommentId(Integer postId, Integer commentId) {
 		BlogPost blogPost = blogPostService.findBlogPostId(postId);
-		//Optional<Comments> blogPostId = blogPostService.findById();
 		List<Comments> comments=commentRepository.findByblogPostAndCommentId(blogPost,commentId);
 		return comments.stream().map(comment -> mapEntityToDto(comment)).toList();
+	}
+
+	@Override
+	public CommentDTO updateComments(CommentDTO commentDTO, Integer postId, Integer commentId) {
+		BlogPost blogPost = blogPostService.findBlogPostId(postId);
+		Optional<Comments> comments= commentRepository.findById(commentId);
+		
+		Comments update=null;
+		if(blogPost!=null && comments.isPresent())
+		{
+			update=commentRepository.save(mapDtoToEntity(commentDTO));
+		}else {
+			throw new ResourceNotFoundException("BlogPost", "Id", commentDTO.getCommentId());
+		}
+		return mapEntityToDto(update);
 	}
 
 }
