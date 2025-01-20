@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.first.ramSirRstApi.dto.BlogPostDTO;
 import com.first.ramSirRstApi.entities.BlogPost;
@@ -101,6 +102,13 @@ public class BlogPostServiceImpl implements BlogPostService {
 	public void delete(BlogPost blogPost) {
 		blogPostRepo.delete(blogPost);
 		
+	}
+
+	@Override
+	public BlogPostDTO deletePostById(Integer id) {
+		BlogPost blogPost = blogPostRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BlogPost", "Id", id));
+		blogPostRepo.deleteById(id);
+		return mapEntityToDto(blogPost);
 	}
 
 }

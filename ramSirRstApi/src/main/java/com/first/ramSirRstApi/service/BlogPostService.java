@@ -17,4 +17,6 @@ BlogPostDTO updateBlogPost(BlogPostDTO blogPostDTO);
 public BlogPost findBlogPostId(Integer blogPostId);
 
 public void delete(BlogPost blogPost);
+
+public BlogPostDTO deletePostById(Integer postId);
 }
