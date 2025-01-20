@@ -14,12 +14,12 @@ import com.first.ramSirRstApi.repository.BlogPostRepo;
 import com.first.ramSirRstApi.service.BlogPostService;
 
 @Service
-public class BolhPostServiceImpl implements BlogPostService {
+public class BlogPostServiceImpl implements BlogPostService {
 
 	private BlogPostRepo blogPostRepo;
 
 	@Autowired
-	public BolhPostServiceImpl(BlogPostRepo blogPostRepo) {
+	public BlogPostServiceImpl(BlogPostRepo blogPostRepo) {
 		super();
 		this.blogPostRepo = blogPostRepo;
 	}
