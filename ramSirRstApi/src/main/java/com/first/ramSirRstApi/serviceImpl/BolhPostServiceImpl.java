@@ -97,4 +97,10 @@ public class BolhPostServiceImpl implements BlogPostService {
 	return blogPost;
 	}
 
+	@Override
+	public void delete(BlogPost blogPost) {
+		blogPostRepo.delete(blogPost);
+		
+	}
+
 }

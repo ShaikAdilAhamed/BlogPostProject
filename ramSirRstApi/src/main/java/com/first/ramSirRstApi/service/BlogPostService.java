@@ -15,4 +15,6 @@ List<BlogPostDTO> getAllBlogPost();
 BlogPostDTO updateBlogPost(BlogPostDTO blogPostDTO);
 
 public BlogPost findBlogPostId(Integer blogPostId);
+
+public void delete(BlogPost blogPost);
 }

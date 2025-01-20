@@ -82,4 +82,18 @@ public class CommentServiceImpl implements CommentService {
 		return mapEntityToDto(update);
 	}
 
+	@Override
+	public void deleteComment(Integer postId, Integer commentId) {
+	    BlogPost blogPost = blogPostService.findBlogPostId(postId);
+	    
+	    // Ensure the comment exists
+	    Comments comment = commentRepository.findById(commentId)
+	        .orElseThrow(() -> new ResourceNotFoundException("Comment", "Id", commentId));
+	    
+	    // Now delete the comment
+	    commentRepository.deleteByBlogpostIdAndCommentId(blogPost.getBlogzid(),comment.getCommentId());
+	}
+
+
+
 }
