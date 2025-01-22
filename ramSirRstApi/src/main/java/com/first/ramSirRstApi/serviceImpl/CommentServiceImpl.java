@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 		return mapEntityToDto(save);
 	}
 
-	private CommentDTO mapEntityToDto(Comments comments) {
+	public CommentDTO mapEntityToDto(Comments comments) {
 		CommentDTO commentDTO=new CommentDTO();
 		commentDTO.setBlogPostId(comments.getBlogPost().getBlogzid());
 		commentDTO.setComment(comments.getComment());
@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
 		return commentDTO;
 	}
 
-	private Comments mapDtoToEntity(CommentDTO commentDTO) {
+	public Comments mapDtoToEntity(CommentDTO commentDTO) {
 		BlogPost blogPost = blogPostService.findBlogPostId(commentDTO.getBlogPostId());
 
 		Comments comments = new Comments();

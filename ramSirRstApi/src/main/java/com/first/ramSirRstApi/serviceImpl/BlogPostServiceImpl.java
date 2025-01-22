@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.first.ramSirRstApi.dto.BlogPostDTO;
+import com.first.ramSirRstApi.dto.CommentDTO;
 import com.first.ramSirRstApi.entities.BlogPost;
+import com.first.ramSirRstApi.entities.Comments;
 import com.first.ramSirRstApi.exception.ResourceNotFoundException;
 import com.first.ramSirRstApi.payloads.BlogPostResponse;
 import com.first.ramSirRstApi.repository.BlogPostRepo;
@@ -22,13 +24,18 @@ import com.first.ramSirRstApi.service.BlogPostService;
 @Service
 public class BlogPostServiceImpl implements BlogPostService {
 
+	
 	private BlogPostRepo blogPostRepo;
 
+	
 	@Autowired
 	public BlogPostServiceImpl(BlogPostRepo blogPostRepo) {
 		super();
 		this.blogPostRepo = blogPostRepo;
 	}
+	
+	@Autowired
+	private CommentServiceImpl commentServiceImpl;
 
 	@Override
 	public BlogPostDTO createObject(BlogPostDTO blogPostDTO) {
@@ -52,6 +59,13 @@ public class BlogPostServiceImpl implements BlogPostService {
 		blogPostDto.setDescription(blogPost.getDescription());
 		blogPostDto.setTitle11(blogPost.getTitle11());
 		blogPostDto.setBlogzid(blogPost.getBlogzid());
+	   
+		List<Comments>list=blogPost.getComments();
+		List<CommentDTO>commentDTOList=list.stream().map(comment ->commentServiceImpl.mapEntityToDto(comment) ).toList();
+	   
+		//setting related comments list with related bolgpost  
+		blogPostDto.setComments(commentDTOList);
+	    //CommentDTO
 		return blogPostDto;
 
 	}
@@ -74,9 +88,8 @@ public class BlogPostServiceImpl implements BlogPostService {
 		//pagination
 		Page<BlogPost> findAll = blogPostRepo.findAll(pageRequest);
 		List<BlogPost>blogPosts=findAll.getContent();
-		 List<BlogPostDTO> list = blogPosts.stream()
-                 .map(this::mapEntityToDto)
-                 .collect(Collectors.toList());
+		
+		 List<BlogPostDTO> list = blogPosts.stream() .map(this::mapEntityToDto).collect(Collectors.toList());
 		BlogPostResponse blogPostResponse= new BlogPostResponse();
 		
 		
