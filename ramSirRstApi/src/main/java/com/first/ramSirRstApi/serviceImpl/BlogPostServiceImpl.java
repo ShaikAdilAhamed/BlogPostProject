@@ -3,14 +3,19 @@ package com.first.ramSirRstApi.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.first.ramSirRstApi.dto.BlogPostDTO;
 import com.first.ramSirRstApi.entities.BlogPost;
 import com.first.ramSirRstApi.exception.ResourceNotFoundException;
+import com.first.ramSirRstApi.payloads.BlogPostResponse;
 import com.first.ramSirRstApi.repository.BlogPostRepo;
 import com.first.ramSirRstApi.service.BlogPostService;
 
@@ -59,10 +64,30 @@ public class BlogPostServiceImpl implements BlogPostService {
 	}
 
 	@Override
-	public List<BlogPostDTO> getAllBlogPost() {
-		List<BlogPost> findAll = blogPostRepo.findAll();
+	public List<BlogPostDTO> getAllBlogPost(PageRequest pageRequest) {
+	   //normal way
+		//List<BlogPost> findAll = blogPostRepo.findAll(pageRequest);
+		
+		
+		
+		
+		//pagination
+		Page<BlogPost> findAll = blogPostRepo.findAll(pageRequest);
+		List<BlogPost>blogPosts=findAll.getContent();
+		 List<BlogPostDTO> list = blogPosts.stream()
+                 .map(this::mapEntityToDto)
+                 .collect(Collectors.toList());
+		BlogPostResponse blogPostResponse= new BlogPostResponse();
+		
+		
+		blogPostResponse.setPageNo(pageRequest.getPageNumber());
+		blogPostResponse.setPageSize(pageRequest.getPageSize());
+		
+		
+		//----------------------------------------------------------------
+		
 		// using stream
-		return findAll.stream().map(blogpost -> mapEntityToDto(blogpost)).toList();
+		return list;
 
 		// using core java
 //		List<BlogPostDTO> blogpostDtos = new ArrayList<>();

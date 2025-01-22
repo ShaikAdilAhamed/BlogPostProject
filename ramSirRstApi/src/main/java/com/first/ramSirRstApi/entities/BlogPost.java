@@ -20,7 +20,7 @@ import lombok.Setter;
 public class BlogPost {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer Blogzid;
+	private Integer blogzid;
 	private String title11;
 	private String Description;
 	private String content1;

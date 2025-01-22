@@ -21,7 +21,7 @@ public interface CommentRepository extends JpaRepository<Comments, Integer>{
 	
 	@Modifying
 	@Transactional
-	@Query("DELETE FROM Comments c WHERE c.blogPost.Blogzid = :blogzid AND c.commentId = :commentId")
+	@Query("DELETE FROM Comments c WHERE c.blogPost.blogzid = :blogzid AND c.commentId = :commentId")
 	void deleteByBlogpostIdAndCommentId(@Param("blogzid") Integer blogPostId, @Param("commentId") Integer commentId);
 
 

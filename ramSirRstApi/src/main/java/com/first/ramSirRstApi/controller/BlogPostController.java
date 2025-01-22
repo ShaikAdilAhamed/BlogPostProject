@@ -3,7 +3,12 @@ package com.first.ramSirRstApi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +32,7 @@ public class BlogPostController {
 	private BlogPostService blogPostService;
 
 	@GetMapping("/{postId}")
-	public ResponseEntity<BlogPostDTO> findGlog(@PathVariable("postId") Integer id) {
+	public ResponseEntity<BlogPostDTO> findBlog(@PathVariable("postId") Integer id) {
 
 		BlogPostDTO getById=blogPostService.findByBlogPostId(id);
 		return new ResponseEntity(getById, HttpStatus.OK);
@@ -41,13 +46,24 @@ public class BlogPostController {
 	}
 	
 	@GetMapping("/findAll")
-	public ResponseEntity<BlogPostDTO> findAllGlog() {
+	public ResponseEntity<BlogPostDTO> findAllBlog(
+	        @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+	        @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+	        @RequestParam(value = "sortBy", defaultValue = "blogzid", required = false) String sortBy,
+	        @RequestParam(value = "sortDir", defaultValue = "ASC", required = false) String sortDir) {
 
-		List<BlogPostDTO> getById=blogPostService.getAllBlogPost();
-		getById.forEach(s -> System.out.println(s));
-		return new ResponseEntity(getById, HttpStatus.OK);
+	   
+
+	    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+	                ? Sort.by(sortBy).ascending() 
+	                : Sort.by(sortBy).descending();
+
+	    PageRequest pagable = PageRequest.of(pageNo, pageSize, sort);
+
+	    List<BlogPostDTO> student = blogPostService.getAllBlogPost(pagable);
+	    return new ResponseEntity(student, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/update")
 	public ResponseEntity<BlogPostDTO> updateBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
 
