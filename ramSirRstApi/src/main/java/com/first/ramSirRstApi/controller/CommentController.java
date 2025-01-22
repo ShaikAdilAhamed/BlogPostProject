@@ -18,6 +18,8 @@ import com.first.ramSirRstApi.dto.BlogPostDTO;
 import com.first.ramSirRstApi.dto.CommentDTO;
 import com.first.ramSirRstApi.service.CommentService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/posts")
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -27,7 +29,7 @@ public class CommentController {
 	private CommentService commentService;
 
 	@PostMapping("/{postId}/comments")
-	public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO, @PathVariable Integer postId) {
+	public ResponseEntity<CommentDTO> createComment(@Valid @RequestBody CommentDTO commentDTO, @PathVariable Integer postId) {
 
 		if (postId.equals(commentDTO.getBlogPostId())) {
 			CommentDTO createComment = commentService.createComment(commentDTO);
@@ -57,7 +59,7 @@ public class CommentController {
 
 	@PutMapping("/{postId}/comments/{id}")
 	public ResponseEntity<BlogPostDTO> updateBlogPost(@PathVariable Integer postId,
-			@PathVariable("id") Integer commentId, @RequestBody CommentDTO commentDTO) {
+			@PathVariable("id") Integer commentId,@Valid @RequestBody CommentDTO commentDTO) {
 
 		if (postId.equals(commentDTO.getBlogPostId()) && commentId.equals(commentDTO.getCommentId())) {
 			CommentDTO getById = commentService.updateComments(commentDTO, postId, commentId);

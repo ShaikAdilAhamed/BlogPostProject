@@ -8,8 +8,8 @@ import lombok.Data;
 public class CustomExceptionResponse {
 
 	private Date date;
-	private String path;
-	private String description;
+	private String details;
+	private String message;
 	
 	
 }

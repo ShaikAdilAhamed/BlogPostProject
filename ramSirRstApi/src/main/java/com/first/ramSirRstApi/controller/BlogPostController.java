@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.first.ramSirRstApi.dto.BlogPostDTO;
 import com.first.ramSirRstApi.service.BlogPostService;
+import com.first.ramSirRstApi.util.PaginationConstants;
 
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 
 @RestController
@@ -39,7 +41,7 @@ public class BlogPostController {
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<BlogPostDTO> createBlog(@RequestBody BlogPostDTO blogPostDTO) {
+	public ResponseEntity<BlogPostDTO> createBlog(@Valid @RequestBody BlogPostDTO blogPostDTO) {
 
 		BlogPostDTO createBlogPost = blogPostService.createObject(blogPostDTO);
 		return new ResponseEntity(createBlogPost, HttpStatus.CREATED);
@@ -47,10 +49,10 @@ public class BlogPostController {
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<BlogPostDTO> findAllBlog(
-	        @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-	        @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-	        @RequestParam(value = "sortBy", defaultValue = "blogzid", required = false) String sortBy,
-	        @RequestParam(value = "sortDir", defaultValue = "ASC", required = false) String sortDir) {
+	        @RequestParam(value = "pageNo", defaultValue = PaginationConstants.PAGENUM, required = false) Integer pageNo,
+	        @RequestParam(value = "pageSize", defaultValue = PaginationConstants.PAGESIZE, required = false) Integer pageSize,
+	        @RequestParam(value = "sortBy", defaultValue = PaginationConstants.BLOGID, required = false) String sortBy,
+	        @RequestParam(value = "sortDir", defaultValue = PaginationConstants.SORT_ASC, required = false) String sortDir) {
 
 	   
 
@@ -65,7 +67,7 @@ public class BlogPostController {
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<BlogPostDTO> updateBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
+	public ResponseEntity<BlogPostDTO> updateBlogPost(@Valid @RequestBody BlogPostDTO blogPostDTO) {
 
 		BlogPostDTO getById=blogPostService.updateBlogPost(blogPostDTO);
 		
