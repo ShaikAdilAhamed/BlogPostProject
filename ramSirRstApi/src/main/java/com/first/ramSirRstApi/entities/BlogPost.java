@@ -1,5 +1,6 @@
 package com.first.ramSirRstApi.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -26,6 +27,6 @@ public class BlogPost {
 	private String content1;
 	
 	@OneToMany(mappedBy = "blogPost",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	private List<Comments>comments;
+	private List<Comments>comments= new ArrayList<>();
 	//private 
 }

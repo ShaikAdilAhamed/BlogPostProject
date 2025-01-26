@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 // This annotation automatically sends a 404 response when this exception is thrown
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
+//@ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
 
     private String resourceName;

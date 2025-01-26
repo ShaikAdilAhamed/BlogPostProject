@@ -3,13 +3,11 @@ package com.first.ramSirRstApi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +23,6 @@ import com.first.ramSirRstApi.service.BlogPostService;
 import com.first.ramSirRstApi.util.PaginationConstants;
 
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -41,6 +38,7 @@ public class BlogPostController {
 	}
 
 	@PostMapping("/save")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BlogPostDTO> createBlog(@Valid @RequestBody BlogPostDTO blogPostDTO) {
 
 		BlogPostDTO createBlogPost = blogPostService.createObject(blogPostDTO);

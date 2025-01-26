@@ -89,12 +89,13 @@ public class BlogPostServiceImpl implements BlogPostService {
 		Page<BlogPost> findAll = blogPostRepo.findAll(pageRequest);
 		List<BlogPost>blogPosts=findAll.getContent();
 		
-		 List<BlogPostDTO> list = blogPosts.stream() .map(this::mapEntityToDto).collect(Collectors.toList());
-		BlogPostResponse blogPostResponse= new BlogPostResponse();
-		
-		
-		blogPostResponse.setPageNo(pageRequest.getPageNumber());
-		blogPostResponse.setPageSize(pageRequest.getPageSize());
+		// List<BlogPostDTO> list = blogPosts.stream() .map(this::mapEntityToDto).collect(Collectors.toList());
+		 List<BlogPostDTO> list = blogPosts.stream() .map(blogpost ->mapEntityToDto(blogpost)).collect(Collectors.toList());
+//		BlogPostResponse blogPostResponse= new BlogPostResponse();
+//		
+//		
+//		blogPostResponse.setPageNo(pageRequest.getPageNumber());
+//		blogPostResponse.setPageSize(pageRequest.getPageSize());
 		
 		
 		//----------------------------------------------------------------
