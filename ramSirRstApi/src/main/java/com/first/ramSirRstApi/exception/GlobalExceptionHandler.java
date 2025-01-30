@@ -1,5 +1,6 @@
 package com.first.ramSirRstApi.exception;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
 	}
 	
+	
+	@ExceptionHandler(exception = AccessDeniedException.class)
+	public ResponseEntity< CustomExceptionResponse>resourceNotFoundException(AccessDeniedException me,WebRequest we) {
+		
+		CustomExceptionResponse response= new CustomExceptionResponse();
+		response.setDate(new Date());
+		response.setDetails(we.getDescription(false));
+		response.setMessage(me.getMessage());
+		return new ResponseEntity<>(response,HttpStatus.FORBIDDEN);
+	}
 	
 	@ExceptionHandler(exception = Exception.class)
 	public ResponseEntity< CustomExceptionResponse>resourceNotFoundException(Exception exception,WebRequest we) {
