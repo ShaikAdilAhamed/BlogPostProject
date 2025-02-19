@@ -81,6 +81,8 @@ System.out.println("------------------------------");
 	
 	@DeleteMapping("/{postId}")
 	public ResponseEntity<String> deletePostById(@PathVariable("postId") Integer postId) {
+System.out.println("--------------HI Hari iam git----------------");
+		
 		BlogPostDTO deletePostById = blogPostService.deletePostById(postId);
 		return new ResponseEntity("Data Deleted successully",HttpStatus.OK);
 	}
