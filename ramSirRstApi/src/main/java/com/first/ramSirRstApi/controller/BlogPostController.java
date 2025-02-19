@@ -40,7 +40,7 @@ public class BlogPostController {
 	@PostMapping("/save")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BlogPostDTO> createBlog(@Valid @RequestBody BlogPostDTO blogPostDTO) {
-       
+         System.out.println("------------------------------");
 		BlogPostDTO createBlogPost = blogPostService.createObject(blogPostDTO);
 		return new ResponseEntity(createBlogPost, HttpStatus.CREATED);
 	}
