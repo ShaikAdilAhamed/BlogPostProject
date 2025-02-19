@@ -33,6 +33,7 @@ public class BlogPostController {
 	@GetMapping("/{postId}")
 	public ResponseEntity<BlogPostDTO> findBlog(@PathVariable("postId") Integer id) {
 System.out.println("--------------i had made changes from git website----------------");
+System.out.println("--------------i had made changes from git website copy----------------");
 		BlogPostDTO getById=blogPostService.findByBlogPostId(id);
 		return new ResponseEntity(getById, HttpStatus.OK);
 	}
