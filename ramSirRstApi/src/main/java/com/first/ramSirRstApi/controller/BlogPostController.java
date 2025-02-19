@@ -34,7 +34,9 @@ public class BlogPostController {
 	public ResponseEntity<BlogPostDTO> findBlog(@PathVariable("postId") Integer id) {
 
 System.out.println("--------------i had made changes from git website----------------");
+
 System.out.println("--------------i had made changes from git website copy----------------");
+
 
 
 
